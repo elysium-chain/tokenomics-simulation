@@ -1,0 +1,31 @@
+{
+  "name": "purchasing-power-index-simulation",
+  "version": "0.1.0",
+  "description": "Simulation of Purchasing Power Index",
+  "main": "src/index.imba",
+  "scripts": {
+    "dev": "imba serve src/index.imba",
+    "build": "imba build --esm --web --minify --no-sourcemap --production --bundle --base . src/index.html",
+    "deploy": "imba build --esm --web --minify --no-sourcemap --production --bundle --base . src/index.html && firebase deploy",
+    "preview": "npx http-server dist",
+    "help": "imba --help",
+    "version": "imba --version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elysium-chain/purchasing-power-index-simulation.git"
+  },
+  "keywords": [
+    "site",
+    "blockchain"
+  ],
+  "author": "HeapVoid and 0p0int",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elysium-chain/purchasing-power-index-simulation/issues"
+  },
+  "homepage": "http://index-simulation.elysium-chain.com/",
+  "devDependencies": {
+    "imba": "^2.0.0-alpha.225"
+  }
+}
