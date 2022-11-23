@@ -1,3 +1,4 @@
+import { assert } from 'chai'
 import {Generator} from './generator'
 import {Chart} from './chart'
 
@@ -17,6 +18,14 @@ export class Tokenomics
 			supply: 0
 			drain: 0
 			supply_mean: 0
+		assets = 
+			amount: 0
+			gen :
+				init: 10
+				minimum: 10
+				maximum: 10000000
+				direction: 1
+				integer: true
 		emptiness =
 			percent: 0 # the percent of empty blocks during current day
 			gen :
@@ -28,10 +37,11 @@ export class Tokenomics
 			filled: 0 # the number of filled blocks
 			opers: 0 # the mean amount of operations in filled blocks
 			amount: 0 # total amount of blocks
-			gen :
-				init: 60 * 60 * 24
-				direction: 1
-				minimum: 60 * 60 * 24
+			perasset: 60 * 60 * 24
+			# gen :
+			#	init: 60 * 60 * 24
+			#	direction: 1
+			#	minimum: 60 * 60 * 24
 		trx =
 			multi: 10000000
 			amount: 0 # daily amount of transations
@@ -39,7 +49,7 @@ export class Tokenomics
 			fees: 0 # daily amount of fees
 			fee: 0 # cost of a transaction
 			gen :
-				init: 1000
+				init: 100000
 				direction: 5
 				minimum: 1000
 				maximum: 10000000
@@ -60,6 +70,7 @@ export class Tokenomics
 		#gen = new Generator!
 
 		#charts =
+			assets: <Chart>
 			emptiness: <Chart>
 			blocks: <Chart>
 			empty: <Chart>
@@ -77,12 +88,18 @@ export class Tokenomics
 			fee: <Chart>
 
 	def next
+		# generate the assets
+		assets.amount = #gen.next(assets.amount, assets)
+		#charts.assets.add(x:#day, y:assets.amount)
+
 		# generate the percent of empty blocks
 		emptiness.percent = #gen.next(emptiness.percent, emptiness)
 		#charts.emptiness.add(x:#day, y:emptiness.percent)
 		
 		# generate the total amount of blocks
-		blocks.amount = #gen.next(blocks.amount, blocks)
+		# blocks.amount = #gen.next(blocks.amount, blocks)
+		# #charts.blocks.add(x:#day, y:blocks.amount)
+		blocks.amount = assets.amount * blocks.perasset
 		#charts.blocks.add(x:#day, y:blocks.amount)
 
 		# calculate the amount of empty blocks

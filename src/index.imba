@@ -24,6 +24,8 @@ tag App
 		<p> "Day: {tcns.#day}"
 		# <label> 'minimum'
 		#	<input bind=tcns.generate.blocks.emptiness.change min=0 max=99>
+		<label> "Number of assets: {tcns.assets.amount.toFixed(0)}"
+			<(tcns.#charts.assets) [w: 300px h:50px bd: 1px solid black d:block]>
 		<label> "Rate of empty blocks: {tcns.emptiness.percent.toFixed(0)}%"
 			<(tcns.#charts.emptiness) [w: 300px h:50px bd: 1px solid black d:block]>
 		<label> "Blocks generated: {tcns.blocks.amount.toFixed(0)}"
