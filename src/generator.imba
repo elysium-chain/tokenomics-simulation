@@ -13,6 +13,7 @@ export class Generator
 		let direction = options..direction || 0
 		let minimum = options..minimum || 0
 		let maximum = options..maximum || 0
+		let integer = options..integer || false
 
 		direction = 0 if Number.isNaN(direction)
 		let sign = direction >= 0 ? 1 : -1
@@ -27,5 +28,9 @@ export class Generator
 		else
 			mult = random(1) ? 1 : -1
 		
-		return base * (1 + mult * change / 100)
+		let chg = base * mult * change / 100
+		if integer
+			if Math.abs(chg) < 1 then chg = Math.sign(chg) * 1
+			chg = Math.round(chg)
+		return base + chg
 		
