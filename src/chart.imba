@@ -6,10 +6,16 @@ export tag Chart < canvas
 	minX
 	maxX
 	points = []
+	ctx
+	mounted = false
 
 	def mount
+		mounted = true
 		width = self.clientWidth
 		height = self.clientHeight
+		ctx = self.getContext("2d")
+		ctx.fillStyle = 'transparent'
+		ctx.fillRect(0, 0, width, height)
 	
 	def scaleY y
 		return (y - maxY) / (minY - maxY) * height
@@ -18,6 +24,7 @@ export tag Chart < canvas
 		return (x - minX) / (maxX - minX) * width
 
 	def add point
+		return if !mounted
 		if !Object.hasOwn(point,'x') or !Object.hasOwn(point,'y')
 			console.log "Chart error. Wrong x,y coordinates: {point}"
 			return
@@ -30,12 +37,16 @@ export tag Chart < canvas
 		draw!
 
 	def draw
+		return if !mounted
 		if !points.length
 			console.log 'There is no data to draw!'
 			return
 
-		let ctx = self.getContext("2d")
-		ctx.clearRect(0, 0, width, height) 
+		ctx.clearRect(0, 0, width, height)
+		ctx.fillStyle = 'transparent'
+		ctx.fillRect(0, 0, width, height)
+		ctx.strokeStyle = 'linear-gradient(#4E01FF, #FE039B)'
+		ctx.lineWidth = 2
 		ctx.beginPath!
 		ctx.moveTo(scaleX(points[0].x),scaleY(points[0].y))
 		ctx.lineTo(scaleX(point.x), scaleY(point.y)) for point in points
