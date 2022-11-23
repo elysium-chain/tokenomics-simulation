@@ -1,6 +1,6 @@
 import {Tokenomics} from './model.imba'
 
-let speed = 1000 # speed of generating (from 1 to 1000)
+let speed = 1 # speed of generating (from 1 to 1000)
 let stopped = false
 
 let tcns = new Tokenomics!

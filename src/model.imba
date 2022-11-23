@@ -1,4 +1,4 @@
-import { assert } from 'chai'
+import {random} from './random.imba'
 import {Generator} from './generator'
 import {Chart} from './chart'
 
@@ -99,7 +99,7 @@ export class Tokenomics
 		# generate the total amount of blocks
 		# blocks.amount = #gen.next(blocks.amount, blocks)
 		# #charts.blocks.add(x:#day, y:blocks.amount)
-		blocks.amount = assets.amount * blocks.perasset
+		blocks.amount = assets.amount * blocks.perasset * (1 + (random(20) - 10)/100)
 		#charts.blocks.add(x:#day, y:blocks.amount)
 
 		# calculate the amount of empty blocks
@@ -188,6 +188,7 @@ export class Tokenomics
 			# sky.rate = minting / skys
 			sky.rate = ray.supply / sky.supply
 			ray.supply += minting
+			console.log "minting: {minting}, skys: {skys}"
 			ray.supply_mean = (9 * ray.supply_mean + ray.supply) / 10
 			#charts.rate.add(x:#day, y:sky.rate)
 			#charts.ray_supply.add(x:#day, y:ray.supply_mean)
