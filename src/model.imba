@@ -30,7 +30,8 @@ export class Tokenomics
 			percent: 0 # the percent of empty blocks during current day
 			gen :
 				init: 100
-				maximum: 100
+				maximum: 99
+				minimum: 1
 		blocks =
 			empty: 0 # the number of empty blocks during current day
 			reward: 0

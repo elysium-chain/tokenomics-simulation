@@ -5,6 +5,7 @@
   "main": "src/index.imba",
   "scripts": {
     "dev": "imba serve src/index.imba",
+    "des": "imba serve src/design.imba",
     "build": "imba build --esm --web --minify --no-sourcemap --production --bundle --base . src/index.html",
     "deploy": "imba build --esm --web --minify --no-sourcemap --production --bundle --base . src/index.html && firebase deploy",
     "preview": "npx http-server dist",
