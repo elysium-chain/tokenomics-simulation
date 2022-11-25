@@ -1,7 +1,54 @@
-import {random} from './random.imba'
-import {Generator} from './generator'
-import {Chart} from './chart'
+import {Chart} from './chart.imba'
 
+# ----------------------
+# Random number genrator
+# ----------------------
+let seed = Date.now! % 1000
+def random(max = 9, min = 0)
+	seed += Date.now! % 10 + 1
+	let x = Math.abs(Math.sin(seed)) * 10000000
+	x -= Math.floor(x)
+	return Math.floor(x * (max + 1 - min) + min)
+
+# ----------------------
+# time series generator
+# ----------------------
+def generate base, opt
+	let options = opt.gen
+	if !options.inited
+		options.inited = true
+		let init = options..init || 1
+		return init
+
+	let change = options..change || 1
+	let direction = options..direction || 0
+	let minimum = options..minimum || 0
+	let maximum = options..maximum || 0
+	let integer = options..integer || false
+
+	direction = 0 if Number.isNaN(direction)
+	direction *= 2
+	let sign = direction >= 0 ? 1 : -1
+	let mult = 0
+
+	if base <= minimum
+		mult = 1
+	elif maximum and base >= maximum
+		mult = -1
+	elif direction != 0
+		mult = sign * (random(100 + Math.abs(direction)) >= 50 ? 1 : -1)
+	else
+		mult = random(1) ? 1 : -1
+	
+	let chg = base * mult * change / 100
+	if integer
+		if Math.abs(chg) < 1 then chg = Math.sign(chg) * 1
+		chg = Math.round(chg)
+	return base + chg
+
+# ----------------------
+# Model of Tokenomics
+# ----------------------
 export class Tokenomics
 	# ----------------------
 	sky = { 
@@ -18,13 +65,17 @@ export class Tokenomics
 	market = {
 		ray: 0
 		sky: 0
+		deviation: 0
+		swap: 0
 		rate: 0
 	}
 	# ----------------------
 	grinder = {
 		sky: 100000000
-		ray: 1000
+		ray: 10000000
 		rate: 0
+		daily_sky: 0
+		daily_ray: 0
 		k: 0
 	}
 	# ----------------------
@@ -34,7 +85,7 @@ export class Tokenomics
 			init: 10
 			minimum: 10
 			maximum: 10000000
-			direction: 1
+			direction: 0.5
 			integer: true
 	}
 	# ----------------------
@@ -59,30 +110,31 @@ export class Tokenomics
 		amount: 0
 		total: 0
 		fees: 0
+		fee_per_trx: 0
 		fee: do |trxs| 10000000 / (trxs + 10000000)
 		gen:
 			init: 10
-			direction: 5
+			direction: 1
 			minimum: 10
-			maximum: 100000
+			maximum: 100000000
 			change: 3
 	}
 	# ----------------------
 	nodes = {
 		amount: 0
+		welcome: 1000
 		reward_ray: 0
 		rewards_ray: 0
 		reward_sky: 0
 		rewards_sky: 0
 		gen:
-			init: 1000
-			direction: 1
+			init: 10
+			direction: 0.5
 			minimum: 100
 	}
 
 	def constructor
 		#day = 0
-		#gen = new Generator!
 		#charts =
 			assets: <Chart>
 			emptiness: <Chart>
@@ -97,6 +149,7 @@ export class Tokenomics
 			reward_sky: <Chart>
 			rewards_sky: <Chart>
 			market_rate: <Chart>
+			market_swap: <Chart>
 			ray_supply: <Chart>
 			sky_supply: <Chart>
 			sky_dailyburn: <Chart>
@@ -104,6 +157,9 @@ export class Tokenomics
 			fees: <Chart>
 			fee: <Chart>
 			grinder_rate: <Chart>
+			grinder_daily_sky: <Chart>
+			grinder_daily_ray: <Chart>
+			grinder_sky: <Chart>
 		grinder.k = grinder.sky * grinder.ray
 
 	def next
@@ -112,14 +168,14 @@ export class Tokenomics
 		# -----------------------------
 		# Generate values
 		# -----------------------------
-		assets.amount = #gen.next(assets.amount, assets)
-		emptiness.percent = #gen.next(emptiness.percent, emptiness)
-		nodes.amount = #gen.next(nodes.amount, nodes)
+		assets.amount = generate(assets.amount, assets)
+		emptiness.percent = generate(emptiness.percent, emptiness)
+		nodes.amount = generate(nodes.amount, nodes)
 		blocks.amount = assets.amount * blocks.perasset * (1 + (random(20) - 10)/100)
 		blocks.empty = blocks.amount * emptiness.percent / 100
 		blocks.filled = blocks.amount - blocks.empty
 		
-		market.ray = nodes.amount * 10 if !market.ray
+		market.ray = nodes.amount * nodes.welcome if !market.ray
 		
 		#charts.assets.add(x:#day, y:assets.amount)
 		#charts.emptiness.add(x:#day, y:emptiness.percent)
@@ -132,41 +188,47 @@ export class Tokenomics
 		# -----------------------------
 		# calucalate fees
 		# -----------------------------
-		trx.amount = #gen.next(trx.amount, trx)
+		trx.amount = generate(trx.amount, trx)
 		trx.total += trx.amount
 		trx.gen.minimum += 500  if trx.gen.minimum < 10000
 		let fee = trx.fee(trx.amount)
-		# fee = 0.001 if fee < 0.001
+		trx.fee_per_trx = fee
 		trx.fees = trx.amount * fee
 		
 		ray.burned += trx.fees
 		market.ray -= trx.fees
 		console.log "{#day}: fees {trx.fees} are greater then 20% of RAY supply {market.ray}" if trx.fees / market.ray > 0.2
 		#charts.trx.add(x:#day, y:trx.amount)
-		#charts.fee.add(x:#day, y:fee)
+		#charts.fee.add(x:#day, y:trx.dailyfee)
 		#charts.fees.add(x:#day, y:trx.fees)
 			
 		# -----------------------------
 		# Minting RAY through Grinder
 		# -----------------------------
-		let skys = 0
-		let rays = trx.fees
+		grinder.daily_sky = 0
+		grinder.daily_ray = trx.fees
 		let need = ray.curve(#day)
 		let have = market.ray
-		rays += (need - have) / 20 if need > have
-		rays -= (have - need) / 20 if need < have
-		if rays > 0 and market.sky
-			skys = rays / (1.1 * market.ray / market.sky)
-			"{#day}: sky burned {skys} more then 2% of SKY supply {market.sky}" if skys > 0.02 * market.sky
-			skys = 0.02 * market.sky if #day < 100 and skys > 0.02 * market.sky
+		grinder.daily_ray += (need - have) / 20 if need > have
+		grinder.daily_ray -= (have - need) / 20 if need < have
+		if grinder.daily_ray > 0 and market.sky
+			let way = random(2) - 1
+			market.deviation += random(10) / 100 if way > 0 
+			market.deviation -= random(10) / 100 if way < 0
+			market.deviation = -0.9 if market.deviation < -0.9 
+			# market.deviation += (random(2) - 1)/100
+			grinder.daily_sky = grinder.daily_ray / (1.1 * (1 + market.deviation) * market.ray / market.sky)
+			# "{#day}: sky burned {skys} more then 2% of SKY supply {market.sky}" if skys > 0.02 * market.sky
+			# skys = 0.02 * market.sky if #day < 100 and skys > 0.02 * market.sky
 			let br = sky.burned / sky.init
-			grinder.sky += skys * br
-			# grinder.ray -= rays
-			sky.burned += skys * (1 - br)
-			sky.dailyburn = skys * (1 - br)
-			market.sky -= skys
-			market.ray += rays
+			grinder.sky += grinder.daily_sky * br
+			sky.burned += grinder.daily_sky * (1 - br)
+			sky.dailyburn = grinder.daily_sky * (1 - br)
+			market.sky -= grinder.daily_sky
+			market.ray += grinder.daily_ray
 		
+		#charts.grinder_daily_sky.add(x:#day, y:grinder.daily_sky)
+		#charts.grinder_daily_ray.add(x:#day, y:grinder.daily_ray)
 		#charts.ray_supply.add(x:#day, y:market.ray)
 		#charts.sky_supply.add(x:#day, y:market.sky)
 		#charts.sky_dailyburn.add(x:#day, y:sky.dailyburn)
@@ -175,7 +237,7 @@ export class Tokenomics
 		# -----------------------------
 		# Calculatig validators rewards
 		# -----------------------------
-		let rewards_ray = trx.fees + blocks.empty * 0.01
+		let rewards_ray = trx.fees # + blocks.empty * 0.01
 		let rewards_sky = grinder.sky - grinder.k / (grinder.ray + rewards_ray)
 		nodes.rewards_ray = rewards_ray
 		nodes.reward_ray = rewards_ray / nodes.amount
@@ -186,13 +248,16 @@ export class Tokenomics
 		grinder.rate = rewards_ray / rewards_sky
 		market.sky += rewards_sky
 		market.rate = market.ray / market.sky
+		market.swap = (1 + market.deviation) * market.ray / market.sky
 		#charts.grinder_rate.add(x:#day, y:grinder.rate)
-		#charts.market_rate.add(x:#day, y:market.rate)
+		#charts.market_swap.add(x:#day, y:market.swap)
 		#charts.reward_ray.add(x:#day, y:nodes.reward_ray)
 		#charts.rewards_ray.add(x:#day, y:nodes.rewards_ray)
 		if #day > 10
 			#charts.reward_sky.add(x:#day, y:nodes.reward_sky)
 			#charts.rewards_sky.add(x:#day, y:nodes.rewards_sky)
+			#charts.grinder_sky.add(x:#day, y:grinder.sky)
+			#charts.market_rate.add(x:#day, y:market.rate)
 		
 		# -----------------------------
 		# The End
