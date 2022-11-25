@@ -211,13 +211,13 @@ export class Tokenomics
 		let have = market.ray
 		grinder.daily_ray += (need - have) / 20 if need > have
 		grinder.daily_ray -= (have - need) / 20 if need < have
+		let way = random(2) - 1
+		market.deviation += random(10) / 100 if way > 0 
+		market.deviation -= random(10) / 100 if way < 0
+		market.deviation = -0.9 if market.deviation < -0.9 
+		market.swap = (1 + market.deviation) * market.ray / market.sky
 		if grinder.daily_ray > 0 and market.sky
-			let way = random(2) - 1
-			market.deviation += random(10) / 100 if way > 0 
-			market.deviation -= random(10) / 100 if way < 0
-			market.deviation = -0.9 if market.deviation < -0.9 
-			# market.deviation += (random(2) - 1)/100
-			grinder.daily_sky = grinder.daily_ray / (1.1 * (1 + market.deviation) * market.ray / market.sky)
+			grinder.daily_sky = grinder.daily_ray / (1.1 * market.swap)
 			# "{#day}: sky burned {skys} more then 2% of SKY supply {market.sky}" if skys > 0.02 * market.sky
 			# skys = 0.02 * market.sky if #day < 100 and skys > 0.02 * market.sky
 			let br = sky.burned / sky.init
@@ -248,9 +248,7 @@ export class Tokenomics
 		grinder.rate = rewards_ray / rewards_sky
 		market.sky += rewards_sky
 		market.rate = market.ray / market.sky
-		market.swap = (1 + market.deviation) * market.ray / market.sky
 		#charts.grinder_rate.add(x:#day, y:grinder.rate)
-		#charts.market_swap.add(x:#day, y:market.swap)
 		#charts.reward_ray.add(x:#day, y:nodes.reward_ray)
 		#charts.rewards_ray.add(x:#day, y:nodes.rewards_ray)
 		if #day > 10
@@ -258,6 +256,7 @@ export class Tokenomics
 			#charts.rewards_sky.add(x:#day, y:nodes.rewards_sky)
 			#charts.grinder_sky.add(x:#day, y:grinder.sky)
 			#charts.market_rate.add(x:#day, y:market.rate)
+			#charts.market_swap.add(x:#day, y:market.swap)
 		
 		# -----------------------------
 		# The End

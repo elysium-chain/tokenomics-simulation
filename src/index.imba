@@ -536,13 +536,21 @@ tag App
 					if skyactive
 						<.shine>
 				<.empty>
-				<.block.last>
+				<.block>
 					<.title>
 						<h2> "{SpaceNum(tcns.market.rate.toFixed(4))} RAY"
-							<span> '1 SKY'
+							<span> 'Supply based rate'
 						<.hint>
 						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
-					<(tcns.#charts.market_rate).chart.grid>
+					<(tcns.#charts.market_rate).chart>
+				<.empty>
+				<.block>
+					<.title>
+						<h2> "{SpaceNum(tcns.market.swap.toFixed(4))} RAY"
+							<span> 'Exchange rate'
+						<.hint>
+						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+					<(tcns.#charts.market_swap).chart>
 			<p[m: auto ta: center mt: 24px c: #6E5579]> '© 2022. Elysium Team'
 
 imba.mount <App>
