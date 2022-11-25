@@ -18,8 +18,6 @@ export class Tokenomics
 	market = {
 		ray: 0
 		sky: 0
-		deviation: 0
-		swap: 0
 		rate: 0
 	}
 	# ----------------------
@@ -27,7 +25,6 @@ export class Tokenomics
 		sky: 100000000
 		ray: 1000
 		rate: 0
-		daily_sky: 0
 		k: 0
 	}
 	# ----------------------
@@ -62,25 +59,23 @@ export class Tokenomics
 		amount: 0
 		total: 0
 		fees: 0
-		dailyfee: 0
 		fee: do |trxs| 10000000 / (trxs + 10000000)
 		gen:
 			init: 10
 			direction: 5
 			minimum: 10
-			maximum: 40000000
+			maximum: 100000
 			change: 3
 	}
 	# ----------------------
 	nodes = {
 		amount: 0
-		welcome: 1000
 		reward_ray: 0
 		rewards_ray: 0
 		reward_sky: 0
 		rewards_sky: 0
 		gen:
-			init: 10
+			init: 1000
 			direction: 1
 			minimum: 100
 	}
@@ -102,7 +97,6 @@ export class Tokenomics
 			reward_sky: <Chart>
 			rewards_sky: <Chart>
 			market_rate: <Chart>
-			market_swap: <Chart>
 			ray_supply: <Chart>
 			sky_supply: <Chart>
 			sky_dailyburn: <Chart>
@@ -110,7 +104,6 @@ export class Tokenomics
 			fees: <Chart>
 			fee: <Chart>
 			grinder_rate: <Chart>
-			grinder_daily_sky: <Chart>
 		grinder.k = grinder.sky * grinder.ray
 
 	def next
@@ -126,7 +119,7 @@ export class Tokenomics
 		blocks.empty = blocks.amount * emptiness.percent / 100
 		blocks.filled = blocks.amount - blocks.empty
 		
-		market.ray = nodes.amount * nodes.welcome if !market.ray
+		market.ray = nodes.amount * 10 if !market.ray
 		
 		#charts.assets.add(x:#day, y:assets.amount)
 		#charts.emptiness.add(x:#day, y:emptiness.percent)
@@ -143,42 +136,37 @@ export class Tokenomics
 		trx.total += trx.amount
 		trx.gen.minimum += 500  if trx.gen.minimum < 10000
 		let fee = trx.fee(trx.amount)
-		trx.dailyfee = fee
+		# fee = 0.001 if fee < 0.001
 		trx.fees = trx.amount * fee
 		
 		ray.burned += trx.fees
 		market.ray -= trx.fees
 		console.log "{#day}: fees {trx.fees} are greater then 20% of RAY supply {market.ray}" if trx.fees / market.ray > 0.2
 		#charts.trx.add(x:#day, y:trx.amount)
-		#charts.fee.add(x:#day, y:trx.dailyfee)
+		#charts.fee.add(x:#day, y:fee)
 		#charts.fees.add(x:#day, y:trx.fees)
 			
 		# -----------------------------
 		# Minting RAY through Grinder
 		# -----------------------------
-		grinder.daily_sky = 0
+		let skys = 0
 		let rays = trx.fees
 		let need = ray.curve(#day)
 		let have = market.ray
 		rays += (need - have) / 20 if need > have
 		rays -= (have - need) / 20 if need < have
 		if rays > 0 and market.sky
-			let way = random(2) - 1
-			market.deviation += random(10) / 100 if way > 0 
-			market.deviation -= random(10) / 100 if way < 0
-			market.deviation = -0.9 if market.deviation < -0.9 
-			# market.deviation += (random(2) - 1)/100
-			grinder.daily_sky = rays / (1.1 * (1 + market.deviation) * market.ray / market.sky)
-			# "{#day}: sky burned {skys} more then 2% of SKY supply {market.sky}" if skys > 0.02 * market.sky
-			# skys = 0.02 * market.sky if #day < 100 and skys > 0.02 * market.sky
+			skys = rays / (1.1 * market.ray / market.sky)
+			"{#day}: sky burned {skys} more then 2% of SKY supply {market.sky}" if skys > 0.02 * market.sky
+			skys = 0.02 * market.sky if #day < 100 and skys > 0.02 * market.sky
 			let br = sky.burned / sky.init
-			grinder.sky += grinder.daily_sky * br
-			sky.burned += grinder.daily_sky * (1 - br)
-			sky.dailyburn = grinder.daily_sky * (1 - br)
-			market.sky -= grinder.daily_sky
+			grinder.sky += skys * br
+			# grinder.ray -= rays
+			sky.burned += skys * (1 - br)
+			sky.dailyburn = skys * (1 - br)
+			market.sky -= skys
 			market.ray += rays
 		
-		#charts.grinder_daily_sky.add(x:#day, y:grinder.daily_sky)
 		#charts.ray_supply.add(x:#day, y:market.ray)
 		#charts.sky_supply.add(x:#day, y:market.sky)
 		#charts.sky_dailyburn.add(x:#day, y:sky.dailyburn)
@@ -198,10 +186,8 @@ export class Tokenomics
 		grinder.rate = rewards_ray / rewards_sky
 		market.sky += rewards_sky
 		market.rate = market.ray / market.sky
-		market.swap = (1 + market.deviation) * market.ray / market.sky
 		#charts.grinder_rate.add(x:#day, y:grinder.rate)
 		#charts.market_rate.add(x:#day, y:market.rate)
-		#charts.market_swap.add(x:#day, y:market.swap)
 		#charts.reward_ray.add(x:#day, y:nodes.reward_ray)
 		#charts.rewards_ray.add(x:#day, y:nodes.rewards_ray)
 		if #day > 10
