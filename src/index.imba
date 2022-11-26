@@ -582,9 +582,9 @@ tag App
 						<.hint>
 						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.ray_supply).chart>
-				<svg.arrow.sky=skyactive @mouseenter=(skyactive = true) @mouseleave=(skyactive= false) [transform: rotateZ(90deg)]>
-					<path.dotted d="M1,20 L39,20">
-					<path d="M6,15 L1,20 L6,25">
+				<svg.arrow.sky=skyactive @mouseenter=(skyactive = true) @mouseleave=(skyactive= false) [transform: rotateZ(90deg) s: 80px]>
+					<path.dotted d="M1,40 L80,40">
+					<path d="M6,35 L1,40 L6,45">
 				<.empty>
 				<.empty>
 				<.empty>
