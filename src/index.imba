@@ -1,7 +1,7 @@
 import {Tokenomics} from './tokenomics.imba'
-import favicon from './logo.png'
 import {Discord, Twitter, Medium, GitHub, World} from './icons.imba'
 
+import favicon from './logo.png'
 let favicon-link = document.querySelector("link[rel~='icon']")
 if !favicon-link
 	let link = document.createElement("link")
@@ -42,6 +42,7 @@ global css html
 	p
 		m: 0
 	button
+		ol: none
 		cursor: pointer
 		ff: 'Montserrat' fs: 12px lh: 24px fw: 600 tt: uppercase c: #fff
 		d: flex ai: center jc: center s: 44px
@@ -49,13 +50,14 @@ global css html
 		border-style: solid
 		border-image: linear-gradient(to right top, #4E01FF, #FE039B) 1 1 1 1
 		bg: linear-gradient(to right top, #4E01FF, #FE039B)
-		bgs: 0% 100%
+		bgp: -1px -1px
+		bgs: 0% 105%
 		bgr: no-repeat
 		tween: ease 0.2s
 		&:hover
-			bgs: 100% 100%
+			bgs: 105% 105%
 		&.active
-			bgs: 100% 100%
+			bgs: 105% 105%
 		&.play, &.next
 			>>> svg
 				s: 12px
@@ -599,8 +601,8 @@ tag App
 				# Supply Based Rate
 				<.block.simple>
 					<.title>
-						<h2> "{tcns.market.rate.toFixed(4)} RAY"
-							<span> 'Supply based rate'
+						<h2> "{tcns.market.rate.toFixed(2)} RAY"
+							<span> 'Supply rate'
 						<.hint>
 						<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.market_rate).chart>
@@ -608,8 +610,8 @@ tag App
 				# Market Exchange Rate
 				<.block.simple>
 					<.title>
-						<h2> "{tcns.market.swap.toFixed(4)} RAY"
-							<span> 'Market exchange rate'
+						<h2> "{tcns.market.swap.toFixed(2)} RAY"
+							<span> 'Market rate'
 						<.actions>
 							<.speed>
 								<.icon-box>
