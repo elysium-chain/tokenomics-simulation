@@ -1,4 +1,13 @@
 import {Tokenomics} from './tokenomics.imba'
+import favicon from './logo.png'
+
+let favicon-link = document.querySelector("link[rel~='icon']")
+if !favicon-link
+	let link = document.createElement("link")
+	link.type = "image/png"
+	link.rel="icon"
+	link.href = favicon.url
+	document.head.appendChild(link)
 
 global css html
 	m: 0 p: 0
