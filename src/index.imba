@@ -1,5 +1,6 @@
 import {Tokenomics} from './tokenomics.imba'
 import favicon from './logo.png'
+import {Discord, Twitter, Medium, GitHub, World} from './icons.imba'
 
 let favicon-link = document.querySelector("link[rel~='icon']")
 if !favicon-link
@@ -118,9 +119,10 @@ global css html
 		ol: none
 
 css .header
-	d: grid gtc: auto 1fr 180px 180px auto g: 40px ai: center
+	d: grid gtc: auto 1fr 180px auto g: 40px ai: center
 	p: 32px 40px
 	.logo
+		cursor: pointer
 		h: 44px
 		d: flex g: 16px ai: center
 		.symbol
@@ -155,35 +157,50 @@ css .header
 			stroke: #fff
 			stroke-width: 2px
 			circle stroke-width: 3px
-	.speed
-		pos: relative
-		d: flex ai: center g: 16px
-		.icon-box
-			&:hover
-				& ~ *
-					o: 1
-					visibility: visible
-		.input-box
-			o: 0
-			visibility: hidden
-			zi: 1000
-			d: flex ai: center jc: center
-			pos: absolute l: 0 t: 0
-			h: 44px p: 0 16px
-			bd: solid 1px rgba(255,255,255,.05)
-			box-sizing: border-box
-			bg: rgba(19, 6, 26, .6)
-			backdrop-filter: blur(10px)
-			bxs: 0 16px 40px rgba(19, 6, 26, .5)
-			origin: 22px 22px
-			transform: rotateZ(90deg)
-			tween: ease 0.2s
-			&:hover
-				o: 1
-				visibility: visible
 	.actions
 		js: end
 		d: grid gtc: repeat(3, 44px) g: 16px
+
+css .speed
+	pos: relative
+	d: flex ai: center g: 16px
+	.icon-box
+		&:hover
+			& ~ *
+				o: 1
+				visibility: visible
+	.input-box
+		o: 0
+		visibility: hidden
+		zi: 1000
+		d: flex ai: center jc: center g: 16px
+		pos: absolute l: 0 t: 0
+		h: 44px p: 0 16px
+		bd: solid 1px rgba(255,255,255,.05)
+		box-sizing: border-box
+		bg: rgba(19, 6, 26, .6)
+		backdrop-filter: blur(10px)
+		bxs: 0 16px 40px rgba(19, 6, 26, .5)
+		origin: 22px 22px
+		transform: rotateZ(90deg)
+		tween: ease 0.2s
+		&:hover
+			o: 1
+			visibility: visible
+		.plus-minus
+			pos: relative
+			s: 10px
+			&:before
+				content: ''
+				pos: absolute l: 0 t: 0 r: 0 b: 0 m: auto
+				w: 2px
+				bg: #6e5579
+			&.plus
+				&:after
+					content: ''
+					pos: absolute l: 0 t: 0 r: 0 b: 0 m: auto
+					h: 2px
+					bg: #6e5579
 
 css .section
 	p: 0 40px 40px 40px
@@ -217,14 +234,9 @@ css .block
 	p: 20px
 	bd: solid 1px rgba(255,255,255,.05)
 	bg: rgba(255,255,255,.05)
-	&.last
+	&.simple
 		bg: none
 		bd: none
-		gc: 3 / 6
-		.title
-			zi: 11
-			pos: absolute t: 20px l: 20px r: 20px
-			txs: 0 4px 4px #13061A
 	&.rainbow
 		bd: none
 		bg: linear-gradient(to right top, #4E01FF, #FE039B)
@@ -235,8 +247,7 @@ css .block
 			&:before
 				c: rgba(255,255,255,.4)
 		.chart
-			bd: solid 1px rgba(255,255,255,.05)
-			bg: rgba(255,255,255,.05)
+			bg: repeating-linear-gradient(to top, rgba(255,255,255,.2) 0px, rgba(255,255,255,0) 1px, rgba(255,255,255,0) 15px)
 	.shine
 		pos: absolute l: 0 t: 0 r: 0 b: 0
 		of: hidden
@@ -289,6 +300,30 @@ css .block
 			tween: visibility 0s 0.2s, transform 0.2s, opacity 0.2s
 			backdrop-filter: blur(10px)
 			bxs: 0 16px 40px rgba(19, 6, 26, .5)
+			&.bottom
+				t: auto b: 100% mt: 0 mb: 18px
+				transform: translateY(-40px)
+		.actions
+			d: flex g: 8px ai: start
+			.speed
+				.input-container
+					o: 0
+					visibility: hidden
+					zi: 1000
+					d: flex ai: center jc: center
+					pos: absolute l: 0 t: 0 r: 0 b: 0
+					tween: ease 0.2s
+					&:hover
+						o: 1
+						visibility: visible
+				.input-box
+					d: flex ai: center jc: center
+					pos: relative m: auto
+					transform: rotateZ(-90deg)
+					origin: 50% 50%
+					h: 40px
+					o: 1
+					visibility: visible
 	.chart
 		zi: 1
 		pos: relative
@@ -298,11 +333,6 @@ css .block
 		# bd: solid 1px rgba(255,255,255,.025)
 		# box-sizing: border-box
 		# bxs: 0 8px 16px 0 rgba(0,0,0,.1)
-		&.grid
-			h: 139px
-			bd: none
-			bxs: none
-			bg: repeating-linear-gradient(to top, rgba(255,255,255,.075) 0px, rgba(255,255,255,0) 1px, rgba(255,255,255,0) 20px)
 
 css .info
 	d: flex fld: column g: 24px
@@ -310,6 +340,25 @@ css .info
 
 css .grind
 	fs: 12px fw: 600 lh: 28px js: center tt: uppercase m: 11px 0 1px 0
+
+css .footer
+	d: flex jc: space-between
+	p: 32px 40px
+	p c: #6E5579
+	.social
+		d: flex ai: center jc: center g: 32px
+		>>> svg
+			d: block
+			stroke: none
+			stroke-linejoin: round
+			m: 0
+			p: 0
+			cursor: pointer
+			h: 16px
+			fill: #6E5579
+			tween: ease 0.2s
+			&:hover
+				fill: #fff
 
 let speed = 30 # speed of generating (from 1 to 1000)
 let trans = 0
@@ -340,12 +389,15 @@ tag Settings
 	css self
 		cursor: pointer
 		d: flex ai: center jc: center
-		s: 44px
 		bd: solid 1px rgba(255, 255, 255, .05)
 		box-sizing: border-box
+		s: 44px
 		&:hover
 			>>> svg
 				fill: #fff
+		&.small
+			s: 40px
+			rd: 100%
 		>>> svg
 			d: block
 			fill: #6E5579
@@ -361,7 +413,7 @@ tag Settings
 tag App
 	<self>
 		<.header>
-			<.logo>
+			<.logo @click=(do window.open("https://elysium-chain.com"))>
 				<.symbol>
 					<img src='./logo.png'>
 					<img src='./logo.png'>
@@ -369,20 +421,15 @@ tag App
 				<.name>
 					<img.elysium src='./elysium.webp'>
 					<p> 'tokenomics'
-			<h1[js: center]> "{tcns.#day}"
+			<h1[js: end]> "{tcns.#day}"
 				<span> "days from start"
 			<.speed>
 				<.icon-box>
 					<Settings>
 				<.input-box>
-					<input[bgs: {(tcns.trx.gen.direction + 5)*10}% 100%] type='range' bind=tcns.trx.gen.direction min=-5 max=5 step=1>
-				<h1> "{tcns.trx.gen.direction}"
-					<span> "Network activity"
-			<.speed>
-				<.icon-box>
-					<Settings>
-				<.input-box>
+					<.plus-minus>
 					<input[bgs: {speed*3.333333}% 100%] type='range' bind=speed min=1 max=30>
+					<.plus-minus.plus>
 				<h1> "{speed}"
 					<span> "Days per second"
 			<.actions>
@@ -490,8 +537,16 @@ tag App
 					<.title>
 						<h2> "{SpaceNum(tcns.trx.amount.toFixed(0))}"
 							<span> 'Transactions'
-						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.actions>
+							<.speed>
+								<.icon-box>
+									<Settings.small>
+								<.input-container> <.input-box>
+									<.plus-minus>
+									<input[bgs: {(tcns.trx.gen.direction + 5)*10}% 100%] type='range' bind=tcns.trx.gen.direction min=-5 max=5 step=1>
+									<.plus-minus.plus>
+							<.hint>
+							<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.trx).chart>
 				<.empty>
 				<.empty>
@@ -540,26 +595,43 @@ tag App
 						<h2> "{SpaceNum(tcns.blocks.amount.toFixed(0))}"
 							<span> 'Blocks'
 						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.blocks).chart>
 					if skyactive
 						<.shine>
 				<.empty>
-				<.block>
+				# Supply Based Rate
+				<.block.simple>
 					<.title>
-						<h2> "{SpaceNum(tcns.market.rate.toFixed(4))} RAY"
+						<h2> "{tcns.market.rate.toFixed(4)} RAY"
 							<span> 'Supply based rate'
 						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.market_rate).chart>
 				<.empty>
-				<.block>
+				# Market Exchange Rate
+				<.block.simple>
 					<.title>
-						<h2> "{SpaceNum(tcns.market.swap.toFixed(4))} RAY"
+						<h2> "{tcns.market.swap.toFixed(4)} RAY"
 							<span> 'Market exchange rate'
-						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.actions>
+							<.speed>
+								<.icon-box>
+									<Settings.small>
+								<.input-container> <.input-box>
+									<.plus-minus>
+									<input[bgs: {(tcns.trx.gen.direction + 5)*10}% 100%] type='range' bind=tcns.trx.gen.direction min=-5 max=5 step=1>
+									<.plus-minus.plus>
+							<.hint>
+							<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.market_swap).chart>
-			<p[m: auto ta: center mt: 24px c: #6E5579]> '© 2022. Elysium Team'
+			<.footer>
+				<p> '© 2022. Elysium Team'
+				<.social>
+					<a href="https://elysium-chain.com" target="_blank" title="Elysium Main Site"><World>
+					<a href="https://discord.gg/elysiumchain" target="_blank" title="Elysium Discord"><Discord>
+					<a href="https://twitter.com/elysium_chain" target="_blank" title="Elysium Twitter"><Twitter>
+					<a href="https://medium.com/@heap.void" target="_blank" title="Elysium Medium"><Medium>
+					<a href="https://github.com/elysium-chain/tokenomics-simulation" target="_blank" title="Elysium GitHub"><GitHub>
 
 imba.mount <App>
