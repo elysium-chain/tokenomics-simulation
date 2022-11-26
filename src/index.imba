@@ -470,7 +470,7 @@ tag App
 							<h2> "{SpaceNum(tcns.sky.burned.toFixed(0))} SKY"
 								<span> 'SKY Burned'
 							<.hint>
-							<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+							<.hint-text> "Not all SKY is burned. The less SKY remains - the less is the part that is burned.{<br>}For example, if 90% of the initial supply is burned, then Grinder will burn only 10% of the used SKY."
 						<(tcns.#charts.sky_burned).chart>
 					# SKY Storage
 					<.block>
@@ -478,7 +478,7 @@ tag App
 							<h2> "{SpaceNum(tcns.grinder.sky.toFixed(0))} SKY"
 								<span> 'SKY Storage'
 							<.hint>
-							<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+							<.hint-text> "The function used to calculate the price of SKY is x * y = k. It means that the Grinder swap price grows exponentially. The more SKY is taken from the storage - the more expensive it becomes in terms of RAY."
 						<(tcns.#charts.grinder_sky).chart>
 					<div[d: flex js: center]>
 						<svg.arrow.sky=skyactive @mouseenter=(skyactive = true) @mouseleave=(skyactive= false) [transform: rotateZ(90deg)]>
@@ -493,7 +493,7 @@ tag App
 							<h2> "{SpaceNum(tcns.grinder.daily_ray.toFixed(0))} RAY"
 								<span> 'RAY daily issue'
 							<.hint>
-							<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+							<.hint-text> "The RAY amount printed daily should compensate for fees burned. And raise the supply to meet the target amount if needed."
 						<(tcns.#charts.grinder_daily_ray).chart>
 				<.empty>
 				# Fees
@@ -502,7 +502,7 @@ tag App
 						<h2> "{SpaceNum(tcns.trx.fees.toFixed(0))} RAY"
 							<span> 'Fees Burned'
 						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text> "The more transactions proceeded the less will be the price for each. The daily ceiling for the amount of the fees is 10m."
 					<(tcns.#charts.fees).chart>
 				<.empty>
 				<.empty>
@@ -516,7 +516,7 @@ tag App
 						<h2> "{SpaceNum(tcns.market.sky.toFixed(0))} SKY"
 							<span> 'SKY Circulation'
 						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text> "The amount of SKY on hand. SKY owners could use it to print some RAY."
 					<(tcns.#charts.sky_supply).chart>
 					if rayactive
 						<.shine>
@@ -550,7 +550,7 @@ tag App
 									<input[bgs: {(tcns.trx.gen.direction + 5)*10}% 100%] type='range' bind=tcns.trx.gen.direction min=-5 max=5 step=1>
 									<.plus-minus.plus>
 							<.hint>
-							<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+							<.hint-text> "The most crucial parameter that triggers the amount of the fees burned and as a result the amount of RAY to be issued."
 					<(tcns.#charts.trx).chart>
 				<.empty>
 				<.empty>
@@ -564,7 +564,7 @@ tag App
 						<h2> "{SpaceNum(tcns.nodes.rewards_ray.toFixed(0))} RAY"
 							<span> 'Daily Rewards (total)'
 						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text> "The validators' rewards are calculated in RAY and then are swaped for SKY, which goes to validators."
 					<(tcns.#charts.rewards_ray).chart>
 				<svg.arrow.sky=skyactive @mouseenter=(skyactive = true) @mouseleave=(skyactive= false) [w: 80px]>
 					<path.dotted d="M32,20 L0,20">
@@ -584,7 +584,7 @@ tag App
 						<h2> "{SpaceNum(tcns.market.ray.toFixed(0))} RAY"
 							<span> 'RAY Circulation'
 						<.hint>
-						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text> "The amount of RAY on hand. RAY could be used to pay the transaction fees."
 					<(tcns.#charts.ray_supply).chart>
 				<svg.arrow.sky=skyactive @mouseenter=(skyactive = true) @mouseleave=(skyactive= false) [transform: rotateZ(90deg) s: 80px]>
 					<path.dotted d="M1,40 L80,40">
@@ -599,7 +599,7 @@ tag App
 						<h2> "{SpaceNum(tcns.blocks.amount.toFixed(0))}"
 							<span> 'Blocks'
 						<.hint>
-						<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text.bottom> "The amount of generated blocks does not really matter. The rewards are calculated to be equal to fees."
 					<(tcns.#charts.blocks).chart>
 					if skyactive
 						<.shine>
@@ -610,7 +610,7 @@ tag App
 						<h2> "{tcns.market.rate.toFixed(2)} RAY"
 							<span> 'Supply rate'
 						<.hint>
-						<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+						<.hint-text.bottom> "The rate is calculated as the ratio of SKY and RAY on hand."
 					<(tcns.#charts.market_rate).chart>
 				<.empty>
 				# Market Exchange Rate
@@ -627,7 +627,7 @@ tag App
 									<input[bgs: {(tcns.trx.gen.direction + 5)*10}% 100%] type='range' bind=tcns.trx.gen.direction min=-5 max=5 step=1>
 									<.plus-minus.plus>
 							<.hint>
-							<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
+							<.hint-text.bottom> "The SKY/RAY exchange rate on the market. Could be anything. You can play with its dynamics."
 					<(tcns.#charts.market_swap).chart>
 			<.footer>
 				<p> '© 2022. Elysium Team'
