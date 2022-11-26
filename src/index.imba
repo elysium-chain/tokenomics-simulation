@@ -180,6 +180,7 @@ css .speed
 		box-sizing: border-box
 		bg: rgba(19, 6, 26, .6)
 		backdrop-filter: blur(10px)
+		-webkit-backdrop-filter: blur(10px)
 		bxs: 0 16px 40px rgba(19, 6, 26, .5)
 		origin: 22px 22px
 		transform: rotateZ(90deg)
@@ -299,6 +300,7 @@ css .block
 			visibility: hidden
 			tween: visibility 0s 0.2s, transform 0.2s, opacity 0.2s
 			backdrop-filter: blur(10px)
+			-webkit-backdrop-filter: blur(10px)
 			bxs: 0 16px 40px rgba(19, 6, 26, .5)
 			&.bottom
 				t: auto b: 100% mt: 0 mb: 18px
