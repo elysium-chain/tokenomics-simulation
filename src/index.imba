@@ -211,7 +211,7 @@ css .speed
 						bg: #6e5579
 
 css .section
-	p: 0 40px 40px 40px
+	p: 0 40px
 	m: auto
 
 css .scheme
@@ -601,8 +601,8 @@ tag App
 				# Supply Based Rate
 				<.block.simple>
 					<.title>
-						<h2> "{tcns.market.rate.toFixed(2)} RAY"
-							<span> 'Supply rate'
+						<h2> "{tcns.market.rate.toFixed(2)}"
+							<span> 'SKY/RAY on hand ratio'
 						<.hint>
 						<.hint-text.bottom> "The rate is calculated as the ratio of SKY and RAY on hand."
 					<(tcns.#charts.market_rate).chart>
@@ -610,15 +610,15 @@ tag App
 				# Market Exchange Rate
 				<.block.simple>
 					<.title>
-						<h2> "{tcns.market.swap.toFixed(2)} RAY"
-							<span> 'Market rate'
+						<h2> "{tcns.market.swap.toFixed(2)}"
+							<span> 'SKY/RAY market rate'
 						<.actions>
 							<.speed>
 								<.icon-box>
 									<Settings.small>
 								<.input-container> <.input-box>
 									<.plus-minus>
-									<input[bgs: {(tcns.trx.gen.direction + 5)*10}% 100%] type='range' bind=tcns.trx.gen.direction min=-5 max=5 step=1>
+									<input[bgs: {(tcns.market.gen.direction + 5)*10}% 100%] type='range' bind=tcns.market.gen.direction min=-5 max=5 step=1>
 									<.plus-minus.plus>
 							<.hint>
 							<.hint-text.bottom> "The SKY/RAY exchange rate on the market. Could be anything. You can play with its dynamics."

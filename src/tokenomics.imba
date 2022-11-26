@@ -27,7 +27,7 @@ def generate base, opt
 	let integer = options..integer || false
 
 	direction = 0 if Number.isNaN(direction)
-	direction *= 2
+	direction *= 4
 	let sign = direction >= 0 ? 1 : -1
 	let mult = 0
 
@@ -65,9 +65,15 @@ export class Tokenomics
 	market = {
 		ray: 0
 		sky: 0
-		deviation: 0
-		swap: 0
+		swap: 1
 		rate: 0
+		gen:
+			init: 0
+			inited: true
+			minimum: 0
+			maximum: 1000000
+			direction: 1
+			change: 3
 	}
 	# ----------------------
 	grinder = {
@@ -113,11 +119,12 @@ export class Tokenomics
 		fee_per_trx: 0
 		fee: do |trxs| 10000000 / (trxs + 10000000)
 		gen:
-			init: 10
-			direction: 1
-			minimum: 10
+			init: 1000
+			direction: 5
+			minimum: 1000
 			maximum: 100000000
-			change: 3
+			change: 5
+			integer: true
 	}
 	# ----------------------
 	nodes = {
@@ -171,6 +178,7 @@ export class Tokenomics
 		assets.amount = generate(assets.amount, assets)
 		emptiness.percent = generate(emptiness.percent, emptiness)
 		nodes.amount = generate(nodes.amount, nodes)
+		market.swap = generate(market.swap, market) if #day > 20
 		blocks.amount = assets.amount * blocks.perasset * (1 + (random(20) - 10)/100)
 		blocks.empty = blocks.amount * emptiness.percent / 100
 		blocks.filled = blocks.amount - blocks.empty
@@ -188,9 +196,11 @@ export class Tokenomics
 		# -----------------------------
 		# calucalate fees
 		# -----------------------------
+		# trx.gen.maximum = market.ray /30
 		trx.amount = generate(trx.amount, trx)
+		trx.gen.direction = 0 if trx.amount > 40000000
 		trx.total += trx.amount
-		trx.gen.minimum += 500  if trx.gen.minimum < 10000
+		# trx.gen.minimum += 500  if trx.gen.minimum < 10000
 		let fee = trx.fee(trx.amount)
 		trx.fee_per_trx = fee
 		trx.fees = trx.amount * fee
@@ -211,15 +221,10 @@ export class Tokenomics
 		let have = market.ray
 		grinder.daily_ray += (need - have) / 20 if need > have
 		grinder.daily_ray -= (have - need) / 20 if need < have
-		let way = random(2) - 1
-		market.deviation += random(10) / 100 if way > 0 
-		market.deviation -= random(10) / 100 if way < 0
-		market.deviation = -0.9 if market.deviation < -0.9 
-		market.swap = (1 + market.deviation) * market.ray / market.sky
-		if grinder.daily_ray > 0 and market.sky
-			grinder.daily_sky = grinder.daily_ray / (1.1 * market.swap)
-			# "{#day}: sky burned {skys} more then 2% of SKY supply {market.sky}" if skys > 0.02 * market.sky
-			# skys = 0.02 * market.sky if #day < 100 and skys > 0.02 * market.sky
+		grinder.daily_sky = grinder.daily_ray / (1.1 * market.swap)
+		if grinder.daily_sky > market.sky * 0.01
+			grinder.daily_sky = market.sky * 0.01
+		if grinder.daily_ray > 0
 			let br = sky.burned / sky.init
 			grinder.sky += grinder.daily_sky * br
 			sky.burned += grinder.daily_sky * (1 - br)
@@ -248,6 +253,7 @@ export class Tokenomics
 		grinder.rate = rewards_ray / rewards_sky
 		market.sky += rewards_sky
 		market.rate = market.ray / market.sky
+		market.swap = market.rate if #day <= 20
 		#charts.grinder_rate.add(x:#day, y:grinder.rate)
 		#charts.reward_ray.add(x:#day, y:nodes.reward_ray)
 		#charts.rewards_ray.add(x:#day, y:nodes.rewards_ray)
