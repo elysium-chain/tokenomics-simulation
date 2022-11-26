@@ -277,7 +277,7 @@ css .block
 			&:before
 				content: '?'
 				pos: absolute
-				fs: 16px fw: 600 lh: 17px c: rgba(255,255,255,.2)
+				fs: 16px fw: 600 lh: 17px c: #6e5579
 			&:hover
 				&:before
 					c: rgba(255,255,255,1)
