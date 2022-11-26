@@ -157,8 +157,8 @@ export class Tokenomics
 			rewards_sky: <Chart>
 			market_rate: <Chart>
 			market_swap: <Chart>
-			ray_supply: <Chart>
-			sky_supply: <Chart>
+			ray_supply: <Chart line='#fff'>
+			sky_supply: <Chart line='#fff'>
 			sky_dailyburn: <Chart>
 			sky_burned: <Chart>
 			fees: <Chart>

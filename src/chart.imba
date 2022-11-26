@@ -1,6 +1,7 @@
 export tag Chart < canvas
 	width = 0
 	height = 0
+	line = '#FF049F'
 	minY
 	maxY
 	minX
@@ -45,7 +46,7 @@ export tag Chart < canvas
 		ctx.clearRect(0, 0, width, height)
 		ctx.fillStyle = 'transparent'
 		ctx.fillRect(0, 0, width, height)
-		ctx.strokeStyle = '#FF049F'
+		ctx.strokeStyle = line
 		ctx.lineWidth = 2
 		ctx.beginPath!
 		ctx.moveTo(scaleX(points[0].x),scaleY(points[0].y))

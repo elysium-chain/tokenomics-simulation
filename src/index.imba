@@ -462,7 +462,7 @@ tag App
 					<.block>
 						<.title>
 							<h2> "{SpaceNum(tcns.sky.burned.toFixed(0))} SKY"
-								<span> 'SKY Burned'
+								<span> 'SKY totally Burned'
 							<.hint>
 							<.hint-text> "Not all SKY is burned. The less SKY remains - the less is the part that is burned.{<br>}For example, if 90% of the initial supply is burned, then Grinder will burn only 10% of the used SKY."
 						<(tcns.#charts.sky_burned).chart>
@@ -494,7 +494,7 @@ tag App
 				<.block>
 					<.title>
 						<h2> "{SpaceNum(tcns.trx.fees.toFixed(0))} RAY"
-							<span> 'Fees Burned'
+							<span> 'Fees daily burn'
 						<.hint>
 						<.hint-text> "The more transactions proceeded the less will be the price for each. The daily ceiling for the amount of the fees is 10m."
 					<(tcns.#charts.fees).chart>
@@ -508,7 +508,7 @@ tag App
 				<.block.rainbow>
 					<.title>
 						<h2> "{SpaceNum(tcns.market.sky.toFixed(0))} SKY"
-							<span> 'SKY Circulation'
+							<span> 'SKY in Circulation'
 						<.hint>
 						<.hint-text> "The amount of SKY on hand. SKY owners could use it to print some RAY."
 					<(tcns.#charts.sky_supply).chart>
@@ -534,7 +534,7 @@ tag App
 				<.block>
 					<.title>
 						<h2> "{SpaceNum(tcns.trx.amount.toFixed(0))}"
-							<span> 'Transactions'
+							<span> 'Daily Transactions'
 						<.actions>
 							<.speed>
 								<.icon-box>
@@ -556,7 +556,7 @@ tag App
 				<.block>
 					<.title>
 						<h2> "{SpaceNum(tcns.nodes.rewards_ray.toFixed(0))} RAY"
-							<span> 'Daily Rewards (total)'
+							<span> 'All Daily Rewards'
 						<.hint>
 						<.hint-text> "The validators' rewards are calculated in RAY and then are swaped for SKY, which goes to validators."
 					<(tcns.#charts.rewards_ray).chart>
@@ -576,7 +576,7 @@ tag App
 				<.block.rainbow>
 					<.title>
 						<h2> "{SpaceNum(tcns.market.ray.toFixed(0))} RAY"
-							<span> 'RAY Circulation'
+							<span> 'RAY in Circulation'
 						<.hint>
 						<.hint-text> "The amount of RAY on hand. RAY could be used to pay the transaction fees."
 					<(tcns.#charts.ray_supply).chart>
@@ -591,7 +591,7 @@ tag App
 				<.block>
 					<.title>
 						<h2> "{SpaceNum(tcns.blocks.amount.toFixed(0))}"
-							<span> 'Blocks'
+							<span> 'Daily Blocks'
 						<.hint>
 						<.hint-text.bottom> "The amount of generated blocks does not really matter. The rewards are calculated to be equal to fees."
 					<(tcns.#charts.blocks).chart>
