@@ -1,7 +1,7 @@
 import {Tokenomics} from './tokenomics.imba'
-import favicon from './logo.png'
 import {Discord, Twitter, Medium, GitHub, World} from './icons.imba'
 
+import favicon from './logo.png'
 let favicon-link = document.querySelector("link[rel~='icon']")
 if !favicon-link
 	let link = document.createElement("link")
@@ -607,8 +607,8 @@ tag App
 				# Supply Based Rate
 				<.block.simple>
 					<.title>
-						<h2> "{tcns.market.rate.toFixed(4)} RAY"
-							<span> 'Supply based rate'
+						<h2> "{tcns.market.rate.toFixed(2)} RAY"
+							<span> 'Supply rate'
 						<.hint>
 						<.hint-text.bottom> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.market_rate).chart>
@@ -616,8 +616,8 @@ tag App
 				# Market Exchange Rate
 				<.block.simple>
 					<.title>
-						<h2> "{tcns.market.swap.toFixed(4)} RAY"
-							<span> 'Market exchange rate'
+						<h2> "{tcns.market.swap.toFixed(2)} RAY"
+							<span> 'Market rate'
 						<.actions>
 							<.speed>
 								<.icon-box>
