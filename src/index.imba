@@ -547,7 +547,7 @@ tag App
 				<.block>
 					<.title>
 						<h2> "{SpaceNum(tcns.market.swap.toFixed(4))} RAY"
-							<span> 'Exchange rate'
+							<span> 'Market exchange rate'
 						<.hint>
 						<.hint-text> "Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year? Let's do something useful! 🙂 What will be the inflation during the 4-th year?"
 					<(tcns.#charts.market_swap).chart>
