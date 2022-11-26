@@ -167,43 +167,48 @@ css .speed
 	pos: relative
 	d: flex ai: center g: 16px
 	.icon-box
+		zi: 100
 		&:hover
 			& ~ *
 				o: 1
 				visibility: visible
-	.input-box
+	.input-container
+		zi: 1000
+		d: flex ai: center jc: center
+		pos: absolute l: 0 t: 0
 		o: 0
 		visibility: hidden
-		zi: 1000
-		d: flex ai: center jc: center g: 16px
-		pos: absolute l: 0 t: 0
-		h: 44px p: 0 16px
-		bd: solid 1px rgba(255,255,255,.05)
-		box-sizing: border-box
-		bg: rgba(19, 6, 26, .6)
-		backdrop-filter: blur(10px)
-		-webkit-backdrop-filter: blur(10px)
-		bxs: 0 16px 40px rgba(19, 6, 26, .5)
-		origin: 22px 22px
-		transform: rotateZ(90deg)
 		tween: ease 0.2s
 		&:hover
+			zi: 1000
 			o: 1
 			visibility: visible
-		.plus-minus
-			pos: relative
-			s: 10px
-			&:before
-				content: ''
-				pos: absolute l: 0 t: 0 r: 0 b: 0 m: auto
-				w: 2px
-				bg: #6e5579
-			&.plus
-				&:after
+		.input-box
+			zi: 1000
+			d: flex ai: center jc: center g: 16px
+			h: 44px p: 0 16px
+			bd: solid 1px rgba(255,255,255,.05)
+			box-sizing: border-box
+			bg: rgba(19, 6, 26, .6)
+			backdrop-filter: blur(10px)
+			-webkit-backdrop-filter: blur(10px)
+			bxs: 0 8px 24px rgba(19, 6, 26, .5)
+			origin: 22px 22px
+			transform: rotateZ(90deg)
+			.plus-minus
+				pos: relative
+				s: 10px
+				&:before
 					content: ''
 					pos: absolute l: 0 t: 0 r: 0 b: 0 m: auto
-					h: 2px
+					w: 2px
 					bg: #6e5579
+				&.plus
+					&:after
+						content: ''
+						pos: absolute l: 0 t: 0 r: 0 b: 0 m: auto
+						h: 2px
+						bg: #6e5579
 
 css .section
 	p: 0 40px 40px 40px
@@ -311,23 +316,11 @@ css .block
 			d: flex g: 8px ai: start
 			.speed
 				.input-container
-					o: 0
-					visibility: hidden
-					zi: 1000
-					d: flex ai: center jc: center
-					pos: absolute l: 0 t: 0 r: 0 b: 0
-					tween: ease 0.2s
-					&:hover
-						o: 1
-						visibility: visible
-				.input-box
-					d: flex ai: center jc: center
-					pos: relative m: auto
-					transform: rotateZ(-90deg)
-					origin: 50% 50%
-					h: 40px
-					o: 1
-					visibility: visible
+					r: 0 b: 0
+					.input-box
+						transform: rotateZ(-90deg)
+						origin: 50% 50%
+						h: 40px
 	.chart
 		zi: 1
 		pos: relative
@@ -430,10 +423,11 @@ tag App
 			<.speed>
 				<.icon-box>
 					<Settings>
-				<.input-box>
-					<.plus-minus>
-					<input[bgs: {speed*3.333333}% 100%] type='range' bind=speed min=1 max=30>
-					<.plus-minus.plus>
+				<.input-container>
+					<.input-box>
+						<.plus-minus>
+						<input[bgs: {speed*3.333333}% 100%] type='range' bind=speed min=1 max=30>
+						<.plus-minus.plus>
 				<h1> "{speed}"
 					<span> "Days per second"
 			<.actions>
