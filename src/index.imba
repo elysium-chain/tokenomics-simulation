@@ -1,6 +1,7 @@
 import {Tokenomics} from './tokenomics.imba'
 import {Discord, Twitter, Medium, GitHub, World} from './icons.imba'
 
+###
 import favicon from './logo.png'
 let favicon-link = document.querySelector("link[rel~='icon']")
 if !favicon-link
@@ -9,6 +10,7 @@ if !favicon-link
 	link.rel="icon"
 	link.href = favicon.url
 	document.head.appendChild(link)
+###
 
 global css html
 	m: 0 p: 0
